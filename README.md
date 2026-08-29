@@ -113,7 +113,7 @@ The output becomes HIGH when at least two of the three sensor channels indicate 
 
 This demonstrates the basic principle of 2-out-of-3 (2oo3) redundancy.
 
-Phase 4 — Decision Logic
+## Phase 4 — Decision Logic
 
 The decision-logic section combines:
 
@@ -126,7 +126,7 @@ The logic determines whether the system should permit mission progression or gen
 
 Flip-flops are used to provide sequential decision behavior and state retention.
 
-Phase 5 — Fault Detection
+## Phase 5 — Fault Detection
 
 The fault-detection section monitors abnormal conditions and stores the fault state.
 
@@ -136,7 +136,7 @@ The fault-detection logic provides a Fault Memory function, allowing a detected 
 
 This demonstrates the basic concept of latched fault indication used in digital control and monitoring systems.
 
-Phase 6 — Telemetry Panel
+## Phase 6 — Telemetry Panel
 
 The telemetry panel provides visual indication of the current mission state.
 
@@ -167,7 +167,7 @@ X21	Fault Memory
 
 The telemetry outputs are represented using digital indicators in the Multisim simulation.
 
-Hardware / Logic Components
+## Hardware / Logic Components
 
 The design primarily uses components from the 74LS TTL logic family.
 
@@ -238,7 +238,7 @@ Ground connections
               │   Mission Indicators  │
               └───────────────────────┘
 
-Simulation
+## Simulation
 
 The complete circuit was designed and simulated using:
 
@@ -246,7 +246,7 @@ NI Multisim
 
 The simulation demonstrates the interaction between the timing, sequencing, sensor-monitoring, decision, fault-detection, and telemetry sections.
 
-Simulation Files
+## Simulation Files
 
 The repository contains the Multisim project file:
 
@@ -308,7 +308,7 @@ Rigorous safety and reliability analysis
 
 This project provides a simplified foundation for understanding some of the digital logic principles behind such systems.
 
-Learning Outcomes
+## Learning Outcomes
 
 After completing this project, the following concepts can be understood more practically:
 
@@ -319,10 +319,9 @@ How redundant sensor information can be combined using majority voting.
 How flip-flops can retain fault information.
 How multiple digital subsystems can be integrated into a larger control architecture.
 How a mission sequence can be represented using discrete digital logic.
-Future Improvements
 
+## Future Improvements
 The current system can be extended in several directions:
-
 Replace discrete logic with FPGA implementation.
 Add a real-time mission clock.
 Implement a more advanced fault-management architecture.
@@ -333,33 +332,27 @@ Interface the system with a microcontroller or FPGA.
 Develop a graphical telemetry interface.
 Perform automated fault-injection testing.
 Compare discrete TTL logic with modern digital architectures.
-Project Type
 
+## Project Type
 Academic / Educational Project
 
-Domain: Digital Electronics, Mechatronics, Aerospace Systems, Mission Management
+## Domain: Digital Electronics, Mechatronics, Aerospace Systems, Mission Management
 
-Simulation Platform: NI Multisim
+## Simulation Platform: NI Multisim
 
-Logic Technology: 74LS TTL
+## Logic Technology: 74LS TTL
 
-Author
+## Author
 Kunal Nitin Gadhave
-
 Mechatronics Engineering
-
 SVPM's College of Engineering, Malegaon (Bk.), Baramati
-
 Academic Year: 2026–2027
 
-Disclaimer
+## Disclaimer
 
 This project is developed strictly for academic and educational purposes.
-
 The system is a simplified simulation intended to demonstrate digital logic, sequencing, redundancy, decision-making, and fault-detection concepts. It is not intended for use in an actual launch vehicle, spacecraft, aircraft, or safety-critical system.
 
-License
-
+## License
 This project is provided for educational and academic reference.
-
 If you use or modify this project, please provide appropriate credit to the original author.
