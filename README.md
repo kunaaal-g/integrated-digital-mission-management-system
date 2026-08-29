@@ -2,8 +2,9 @@
 
 ### A Simplified Launch-Vehicle Mission Computer Realised Entirely in Discrete Digital Logic
 
-![Project Schematic](<img width="2200" height="1700" alt="iddms-1" src="https://github.com/user-attachments/assets/e703be2d-4ad6-4c4a-bd13-22ff8640d3f1" />
-)
+![Project Schematic]
+<img width="2200" height="1700" alt="iddms-1" src="https://github.com/user-attachments/assets/e703be2d-4ad6-4c4a-bd13-22ff8640d3f1" />
+
 
 ---
 
