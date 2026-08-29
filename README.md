@@ -2,8 +2,6 @@
 
 *A Simplified Launch-Vehicle Mission Computer Realised Entirely in Discrete Digital Logic*
 
-![Mission Management System](Mission_Management_System.png)
-
 ## Overview
 
 The **Integrated Digital Mission Management System** is a simplified digital mission-control architecture designed and simulated using **TTL (Transistor-Transistor Logic) integrated circuits**.
@@ -188,7 +186,7 @@ Digital switches / sensor inputs
 LEDs / indicators
 Logic connections
 Ground connections
-
+text```
                  ┌─────────────────────┐
                  │    Mission Timer    │
                  │      74LS93         │
