@@ -1,484 +1,365 @@
-# Integrated Digital Mission Management System
+# Integrated Digital Mission Management System Using TTL Logic
 
-A digital logic-based mission management system designed to demonstrate how mission sequencing, sensor validation, decision-making, fault detection, and telemetry indication can be implemented using conventional 74xx-series digital logic ICs.
+*A Simplified Launch-Vehicle Mission Computer Realised Entirely in Discrete Digital Logic*
 
-The system is organized into six functional phases, beginning with a mission timing signal and progressing through mission-state generation, sensor validation, decision logic, fault detection, and telemetry indication.
+![Mission Management System](Mission_Management_System.png)
 
----
+## Overview
 
-## 📌 Project Overview
+The **Integrated Digital Mission Management System** is a simplified digital mission-control architecture designed and simulated using **TTL (Transistor-Transistor Logic) integrated circuits**.
 
-The **Integrated Digital Mission Management System** is a sequential and combinational digital logic architecture that models the control flow of a mission-management system.
-
-Instead of using a microcontroller or processor, the system uses discrete TTL logic ICs to implement:
+The project demonstrates how fundamental digital logic circuits can be integrated to perform essential mission-management functions such as:
 
 - Mission timing
-- Mission-state sequencing
-- Sensor condition monitoring
-- Boolean decision logic
-- State memory
+- Sequential phase control
+- Sensor-status monitoring
+- Redundant sensor decision-making
+- Mission decision logic
 - Fault detection and memory
-- Mission-status indication
+- Mission-status telemetry
 
-The project demonstrates the integration of **counters, decoders, logic gates, and flip-flops** into a single coordinated digital system.
+Instead of using a microcontroller, microprocessor, or FPGA, the system is implemented using **discrete 74LS-series TTL logic ICs** and basic digital components.
 
-> **Note:** This project is an educational digital-logic model and is not intended for use as an actual aerospace flight-control or safety-critical system.
+The project is intended as an educational demonstration of how complex control functions can be constructed from fundamental digital logic blocks.
 
 ---
 
-## 🎯 Objectives
+## Project Objectives
 
 The main objectives of this project are:
 
-1. Generate a controlled mission timing sequence.
-2. Decode timing states into individual mission events.
-3. Monitor multiple simulated subsystem conditions.
-4. Determine whether required mission conditions are satisfied.
-5. Implement sequential decision logic.
-6. Detect and retain fault conditions.
-7. Display mission status through a telemetry panel.
-8. Demonstrate the integration of combinational and sequential digital logic.
+1. To design a simplified mission-management system using discrete TTL logic.
+2. To understand the operation of counters, decoders, logic gates, flip-flops, and timing circuits.
+3. To implement a sequential mission-control architecture.
+4. To demonstrate **Triple Redundancy Majority Voting** for sensor decision-making.
+5. To implement mission decision and fault-detection logic.
+6. To provide visual mission-status outputs through a telemetry panel.
+7. To simulate and verify the complete digital system using **NI Multisim**.
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
-The complete system is divided into six functional phases:
-                    ┌─────────────────────┐
-                    │   Mission Clock     │
-                    │       5 Hz          │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Phase 1             │
-                    │ Mission Timer       │
-                    │ 74LS93              │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Phase 2             │
-                    │ Mission Sequencer   │
-                    │ 74154               │
-                    └──────────┬──────────┘
-                               │
-                 ┌─────────────┴─────────────┐
-                 │                           │
-                 ▼                           ▼
-       ┌─────────────────────┐     ┌─────────────────────┐
-       │ Phase 3             │     │ Mission State       │
-       │ Sensor Monitoring   │     │ Information         │
-       │                     │     │                     │
-       │ GPS                 │     └──────────┬──────────┘
-       │ Gyroscope           │                │
-       │ Accelerometer       │                │
-       │ Battery             │                │
-       │ Temperature         │                │
-       │ Communication       │                │
-       └──────────┬──────────┘                │
-                  │                           │
-                  └─────────────┬─────────────┘
-                                ▼
-                    ┌─────────────────────┐
-                    │ Phase 4             │
-                    │ Decision Logic      │
-                    │ 74LS74 / 74LS04     │
-                    │ 74LS08              │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Phase 5             │
-                    │ Fault Detection     │
-                    │ & Fault Memory      │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Phase 6             │
-                    │ Telemetry Panel     │
-                    └─────────────────────┘
-🔹 Phase 1 — Mission Timer
+The system is divided into six major functional phases:
 
-The first stage generates the timing sequence used by the mission-management system.
+### Phase 1 — Mission Timer
 
-A 74LS93 binary counter is used to count the incoming clock pulses.
+The mission timer generates the timing sequence required for progressing through different stages of the mission.
 
-Main components
-5 Hz clock source
-74LS93 binary counter
-Reset circuitry
+A **74LS93 binary counter** is used with a clock source to generate sequential digital states.
 
-The counter generates binary state information that is passed to the mission sequencer.
+**Main components:**
 
-Purpose
+- 74LS93 counter
+- 5 Hz clock source
+- Reset logic
+- TTL logic
 
-The mission timer provides a deterministic sequence that can be used to represent the progression of different mission events.
+---
 
-🔹 Phase 2 — Mission Sequencer
+### Phase 2 — Mission Sequencer
 
-The mission sequencer converts the binary counter output into individual mission-state signals.
+The mission sequencer converts the counter states into individual mission-phase signals.
 
-A 74154 4-to-16 line decoder is used for state decoding.
+A **74LS154 4-to-16 line decoder** is used to decode the binary counter outputs into individual mission states.
 
-The decoded outputs represent different mission events.
+The decoded outputs represent different mission events such as:
 
-Mission states
-Output	Mission State
-X2	POWER ON
-X3	SELF TEST
-X4	NAVIGATION
-X5	MISSION LAUNCH
-X6	MISSION ABORT
-X7	MISSION FROZEN
-X8	STAGE SEPARATION
-X9	PAYLOAD DEPLOY
+- Ready to Launch
+- Mission Launch
+- Mission Abort
+- Mission Frozen
+- Stage Separation
+- Payload Deployment
 
-Additional telemetry outputs are used for system-status indication.
+---
 
-The decoder allows a binary state to be converted into a one-of-many mission event representation.
+### Phase 3 — Sensor Monitoring
 
-🔹 Phase 3 — Sensor Monitoring
+The sensor-monitoring section evaluates the status of multiple mission-critical sensors.
 
-The sensor-monitoring subsystem evaluates multiple simulated system conditions.
+The simulated sensor inputs include:
 
-The monitored inputs include:
+- GPS
+- Gyroscope
+- Accelerometer
+- Battery
+- Temperature
+- Communication
 
-GPS
-Gyroscope
-Accelerometer
-Battery
-Temperature
-Communication
+The system uses **logic gates** to combine and evaluate sensor states.
 
-Logic gates are used to combine these signals and determine whether the required conditions are satisfied.
+A major feature of this section is the use of **redundant sensor inputs and majority voting**.
 
-Logic components
-74LS08 — Quad 2-input AND gate
-74LS32 — Quad 2-input OR gate
+---
 
-The sensor conditions are combined to generate system-level status signals such as:
+### Triple Redundancy Majority Voting
 
-GPS
- │
- ▼
-GPS condition ─────┐
-                   │
-Gyroscope ─────────┤
-                   │
-Accelerometer ─────┤
-                   ├──► Sensor Validation
-Battery ───────────┤
-                   │
-Temperature ───────┤
-                   │
-Communication ─────┘
+Three redundant sensor channels are used to improve decision reliability.
 
-The resulting sensor-status logic is used by the decision-making stage.
+The majority-voting logic follows:
 
-🔹 Phase 4 — Decision Logic
+```text
+MAJORITY = AB + AC + BC
+where:
 
-The decision-logic subsystem combines:
+A = Sensor Channel A
+B = Sensor Channel B
+C = Sensor Channel C
++ = OR operation
+juxtaposition = AND operation
 
-Mission-state information
-Sensor-status information
+The output becomes HIGH when at least two of the three sensor channels indicate a valid condition.
+
+This demonstrates the basic principle of 2-out-of-3 (2oo3) redundancy.
+
+Phase 4 — Decision Logic
+
+The decision-logic section combines:
+
+Mission sequence information
+Sensor status
+Majority-voter output
 Control conditions
-Stored state information
 
-The subsystem uses sequential logic to maintain decision states.
+The logic determines whether the system should permit mission progression or generate an appropriate mission-state signal.
 
-Main components
-74LS74 — Dual D-type flip-flop
-74LS04 — Hex inverter
-74LS08 — Quad 2-input AND gate
+Flip-flops are used to provide sequential decision behavior and state retention.
 
-The flip-flops provide state memory, allowing the system to retain information beyond a single combinational logic evaluation.
+Phase 5 — Fault Detection
 
-This stage is responsible for determining conditions such as:
+The fault-detection section monitors abnormal conditions and stores the fault state.
 
-Mission State
-      │
-      ├───────────────┐
-      │               │
-      ▼               ▼
-Sensor Status     Control Logic
-      │               │
-      └───────┬───────┘
-              ▼
-       Decision Logic
-              │
-              ▼
-       Stored Decision
-🔹 Phase 5 — Fault Detection
+74LS74 D-type flip-flops are used for digital state storage.
 
-The fault-detection stage monitors system conditions and provides a mechanism for retaining a detected fault.
+The fault-detection logic provides a Fault Memory function, allowing a detected fault condition to be retained as a digital state.
 
-A fault condition can be represented by a digital logic signal and stored using sequential logic.
+This demonstrates the basic concept of latched fault indication used in digital control and monitoring systems.
 
-Fault-memory concept
-Fault Condition
-      │
-      ▼
-Fault Detection
-      │
-      ▼
-Fault Memory
-      │
-      ├──────────────► FAULT MEMORY
-      │
-      ▼
-Mission Decision Logic
+Phase 6 — Telemetry Panel
 
-The fault-memory mechanism allows the system to retain a fault indication until the appropriate reset condition is applied.
+The telemetry panel provides visual indication of the current mission state.
 
-This demonstrates the concept of fault latching, which is commonly used in digital control and monitoring systems.
+The simulated telemetry outputs include:
 
-🔹 Phase 6 — Telemetry Panel
+Output	Mission Status
+X1	Ready to Launch
+X2	Power On
+X3	Self Test
+X4	Navigation
+X5	Mission Launch
+X6	Mission Abort
+X7	Mission Frozen
+X8	Stage Separation
+X9	Payload Deploy
+X10	Navigation OK
+X11	Fault Memory
+X12	Power On
+X13	Self Test
+X14	Navigation
+X15	Ready to Launch
+X16	Mission Launch
+X17	Mission Abort
+X18	Mission Frozen
+X19	Stage Separation
+X20	Payload Deploy
+X21	Fault Memory
 
-The final stage provides visual mission-status outputs.
+The telemetry outputs are represented using digital indicators in the Multisim simulation.
 
-The telemetry panel represents the current state of the mission-management system.
+Hardware / Logic Components
 
-Telemetry outputs
-Signal	Indication
-X12	POWER ON
-X13	SELF TEST
-X14	NAVIGATION
-X15	READY TO LAUNCH
-X16	MISSION LAUNCH
-X17	MISSION ABORT
-X18	MISSION FROZEN
-X19	STAGE SEPARATION
-X20	PAYLOAD DEPLOY
-X21	FAULT MEMORY
+The design primarily uses components from the 74LS TTL logic family.
 
-These outputs provide a simple human-readable representation of the internal digital state of the system.
-
-🧩 Major Components
-IC / Component	Function
+Major ICs Used
+IC	Function
 74LS93	Binary counter / mission timer
-74154	4-to-16 line decoder
-74LS08	AND logic
-74LS32	OR logic
-74LS04	NOT / inversion logic
-74LS74	D-type flip-flop / state memory
-Clock Source	Mission timing
-5 V Supply	TTL logic power
-Indicators	Mission telemetry
-📐 Digital Logic Concepts Demonstrated
+74LS154	4-to-16 line decoder / mission sequencer
+74LS08	Quad 2-input AND gate
+74LS32	Quad 2-input OR gate
+74LS04	Hex inverter
+74LS74	Dual D-type flip-flop
 
-This project combines several fundamental concepts of digital electronics:
+Additional components include:
 
-Combinational Logic
-AND gates
-OR gates
-NOT gates
-Boolean decision logic
-Sensor-condition validation
-Sequential Logic
-Binary counters
-State sequencing
-D-type flip-flops
-State memory
-Fault latching
-System-Level Concepts
-Event sequencing
-State decoding
-Condition monitoring
-Decision making
+Digital clock source
+Logic power supplies
+Digital switches / sensor inputs
+LEDs / indicators
+Logic connections
+Ground connections
+
+                 ┌─────────────────────┐
+                 │    Mission Timer    │
+                 │      74LS93         │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │  Mission Sequencer  │
+                 │      74LS154        │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+              ┌─────────────────────────────┐
+              │      Mission States         │
+              │ Launch / Abort / Separation │
+              │ Frozen / Payload Deploy     │
+              └──────────────┬──────────────┘
+                             │
+                             ▼
+       ┌─────────────────────────────────────────┐
+       │           Sensor Monitoring              │
+       │ GPS │ Gyro │ Accelerometer │ Battery    │
+       │ Temperature │ Communication               │
+       └──────────────────┬──────────────────────┘
+                          │
+                          ▼
+              ┌───────────────────────┐
+              │  Majority Voter Logic │
+              │       2-out-of-3      │
+              └───────────┬───────────┘
+                          │
+                          ▼
+              ┌───────────────────────┐
+              │    Decision Logic     │
+              │       74LS74          │
+              └───────────┬───────────┘
+                          │
+                          ▼
+              ┌───────────────────────┐
+              │    Fault Detection    │
+              │     Fault Memory      │
+              └───────────┬───────────┘
+                          │
+                          ▼
+              ┌───────────────────────┐
+              │    Telemetry Panel    │
+              │   Mission Indicators  │
+              └───────────────────────┘
+
+Simulation
+
+The complete circuit was designed and simulated using:
+
+NI Multisim
+
+The simulation demonstrates the interaction between the timing, sequencing, sensor-monitoring, decision, fault-detection, and telemetry sections.
+
+Simulation Files
+
+The repository contains the Multisim project file:
+
+Integrated_Digital_Mission_Management_System.ms14
+
+Open the file in a compatible version of NI Multisim to inspect and simulate the circuit.
+
+Repository Contents
+
+This repository intentionally contains only the essential project files.
+
+Integrated-Digital-Mission-Management-System/
+│
+├── Integrated_Digital_Mission_Management_System.ms14
+├── Project_Documentation.docx
+├── Mission_Management_System.png
+└── README.md
+File Description
+File	Description
+Integrated_Digital_Mission_Management_System.ms14	Complete NI Multisim circuit
+Project_Documentation.docx	Detailed project documentation
+Mission_Management_System.png	Complete circuit schematic
+README.md	Project overview and documentation
+Key Concepts Demonstrated
+
+This project combines several important concepts from digital electronics and control-oriented systems:
+
+TTL digital logic
+Binary counting
+Frequency division
+Digital decoding
+Sequential logic
+Combinational logic
+Sensor redundancy
+Majority voting
 Fault detection
-Telemetry indication
-🔄 Mission Sequence
+Fault memory
+Flip-flop-based state storage
+Mission sequencing
+Digital telemetry
+System-level logic integration
+Engineering Significance
 
-The overall conceptual sequence is:
+Although this project is an educational simulation and not an actual flight-qualified mission computer, its architecture demonstrates several concepts relevant to aerospace and safety-critical systems.
 
-POWER ON
-   │
-   ▼
-SELF TEST
-   │
-   ▼
-NAVIGATION
-   │
-   ▼
-READY TO LAUNCH
-   │
-   ▼
-MISSION LAUNCH
-   │
-   ├──────────────► MISSION ABORT
-   │
-   ▼
-STAGE SEPARATION
-   │
-   ▼
-PAYLOAD DEPLOY
+Real aerospace systems require significantly more advanced technologies, including:
 
-Abnormal conditions can result in alternate states such as:
-
-                ┌──► MISSION ABORT
-                │
-Mission State ──┼──► MISSION FROZEN
-                │
-                └──► FAULT MEMORY
-
-The exact state transition depends on the implemented logic conditions.
-
-🖥️ Complete Schematic
-
-The complete integrated digital circuit is shown below.
-
-🧪 Testing Strategy
-
-The system can be tested phase-by-phase rather than testing the complete circuit simultaneously.
-
-Test 1 — Clock and Counter
-
-Verify that the 74LS93 produces the expected binary count sequence.
-
-Test 2 — State Decoder
-
-Verify that the 74154 activates the expected decoded state for each counter condition.
-
-Test 3 — Sensor Logic
-
-Apply different combinations of sensor inputs and verify the resulting sensor-status outputs.
-
-Test 4 — Decision Logic
-
-Verify that the correct decision is generated for valid and invalid mission conditions.
-
-Test 5 — Fault Detection
-
-Introduce a fault condition and verify that the fault-memory output responds correctly.
-
-Test 6 — Telemetry
-
-Verify that each mission state produces the corresponding telemetry indication.
-
-📊 Expected System Behavior
-
-Under normal operating conditions, the system should progress through its predefined mission states according to the generated timing sequence.
-
-When the required sensor conditions are satisfied:
-
-Valid Conditions
-       │
-       ▼
-Sensor Validation
-       │
-       ▼
-Decision Logic
-       │
-       ▼
-Next Mission State
-
-When an abnormal condition is detected:
-
-Abnormal Condition
-       │
-       ▼
-Fault Detection
-       │
-       ▼
-Fault Memory
-       │
-       ▼
-Mission Status / Decision
-📁 Repository Structure
-integrated-digital-mission-management-system/
-│
-├── README.md
-│
-├── schematic/
-│   └── integrated-mission-management-system.png
-│
-├── documentation/
-│   ├── phase-1-mission-timer.md
-│   ├── phase-2-mission-sequencer.md
-│   ├── phase-3-sensor-monitoring.md
-│   ├── phase-4-decision-logic.md
-│   ├── phase-5-fault-detection.md
-│   └── phase-6-telemetry-panel.md
-│
-├── simulation/
-│   ├── multisim/
-│   └── screenshots/
-│
-├── testing/
-│   ├── test-cases.md
-│   └── truth-tables.md
-│
-└── images/
-    └── system-overview.png
-🚀 Future Improvements
-
-The system can be further developed by adding:
-
-Formal Boolean-equation analysis
-Complete truth tables
-Timing-diagram analysis
-Fault-injection testing
-Automated test cases
-Hardware implementation
-PCB implementation
-FPGA implementation
-Microcontroller-based comparison
-Mission-state logging
-More detailed telemetry
+Radiation-tolerant electronics
+High-reliability processors
+FPGA-based logic
+Real-time operating systems
+Watchdog systems
+Built-in test systems
+Fault-tolerant architectures
+Redundant computing
+Formal verification
 Hardware-in-the-loop testing
-🎓 Learning Outcomes
+Rigorous safety and reliability analysis
 
-Through this project, the following concepts are demonstrated:
+This project provides a simplified foundation for understanding some of the digital logic principles behind such systems.
 
-Digital system architecture
-TTL logic families
-Combinational logic design
-Sequential logic design
-Counters
-Decoders
-Flip-flops
-Boolean logic
-Sensor-condition validation
-Fault-memory circuits
-State-based system design
-System integration
-Digital testing and debugging
-🛠️ Technology
+Learning Outcomes
 
-Hardware / Digital Logic
+After completing this project, the following concepts can be understood more practically:
 
-74LS93
-74154
-74LS08
-74LS32
-74LS04
-74LS74
-5 V TTL logic
+How digital counters generate sequential states.
+How decoders convert binary states into individual control signals.
+How logic gates implement decision-making.
+How redundant sensor information can be combined using majority voting.
+How flip-flops can retain fault information.
+How multiple digital subsystems can be integrated into a larger control architecture.
+How a mission sequence can be represented using discrete digital logic.
+Future Improvements
 
-Design / Simulation
+The current system can be extended in several directions:
 
-Digital circuit simulation
-Logic analysis
-Timing analysis
-👨‍💻 Author
+Replace discrete logic with FPGA implementation.
+Add a real-time mission clock.
+Implement a more advanced fault-management architecture.
+Add watchdog and timeout logic.
+Introduce additional redundant computing channels.
+Develop a hardware prototype using 74LS ICs.
+Interface the system with a microcontroller or FPGA.
+Develop a graphical telemetry interface.
+Perform automated fault-injection testing.
+Compare discrete TTL logic with modern digital architectures.
+Project Type
 
+Academic / Educational Project
+
+Domain: Digital Electronics, Mechatronics, Aerospace Systems, Mission Management
+
+Simulation Platform: NI Multisim
+
+Logic Technology: 74LS TTL
+
+Author
 Kunal Nitin Gadhave
 
 Mechatronics Engineering
-SVPM's College of Engineering, Malegaon (Bk.), Baramati, Maharashtra, India
 
-📜 License
+SVPM's College of Engineering, Malegaon (Bk.), Baramati
 
-This project is intended for educational, academic, and experimental purposes.
+Academic Year: 2026–2027
 
-⭐ Project Status
+Disclaimer
 
-Status: In Development
+This project is developed strictly for academic and educational purposes.
 
-The digital architecture and major functional phases have been designed. Further work includes detailed verification, simulation validation, test-case documentation, and hardware-level validation.
+The system is a simplified simulation intended to demonstrate digital logic, sequencing, redundancy, decision-making, and fault-detection concepts. It is not intended for use in an actual launch vehicle, spacecraft, aircraft, or safety-critical system.
 
-Keywords
+License
 
-Digital Electronics Digital Logic 74LS93 74154 74LS74 TTL Logic Mission Management Fault Detection Telemetry Sequential Logic Combinational Logic Sensor Monitoring Mechatronics Control Systems Embedded Systems
+This project is provided for educational and academic reference.
+
+If you use or modify this project, please provide appropriate credit to the original author.
