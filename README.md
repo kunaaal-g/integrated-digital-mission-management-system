@@ -330,7 +330,7 @@ This repository intentionally contains only the essential project files.
 ```text
 Integrated-Digital-Mission-Management-System/
 │
-├── Integrated_Digital_Mission_Management_System.ms14
+├── Integrated_Digital_Mission_Management_System.ms8
 ├── Project_Documentation.docx
 ├── Mission_Management_System.png
 └── README.md
@@ -338,7 +338,7 @@ Integrated-Digital-Mission-Management-System/
 
 | File                                                | Description                                  |
 | --------------------------------------------------- | -------------------------------------------- |
-| `Integrated_Digital_Mission_Management_System.ms14` | Complete NI Multisim circuit simulation      |
+| `Integrated_Digital_Mission_Management_System.ms8` | Complete NI Multisim circuit simulation      |
 | `Project_Documentation.docx`                        | Detailed project documentation               |
 | `Mission_Management_System.png`                     | Complete circuit schematic                   |
 | `README.md`                                         | Project overview and technical documentation |
